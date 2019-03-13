@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mynginx
+spec:
+  selector:
+    matchLabels:
+      tier: frontend
+     # run: mynginx
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        tier: frontend
+       # run: mynginx
+    spec:
+      containers:
+      - name: mynginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        env:
+        - name: LANGUAGE
+          valueFrom:
+            configMapKeyRef:
+              name: language
+              key: LANGUAGE
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: apikey
+              key: API_KEY

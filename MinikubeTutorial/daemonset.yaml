@@ -1,0 +1,30 @@
+apiVersion: apps/v1beta2
+kind: DaemonSet
+metadata:
+  name: fluentd
+spec:
+  selector:
+      matchLabels:
+        # label selector indicates which pods belong to the set
+        name: fluentd
+  template:
+    metadata:
+      labels:
+        # Pod template label selector
+        name: fluentd
+    spec:
+      nodeSelector:
+        # Node label selector indicates which nodes Pod should be scheduled on
+        # since we haven't specified a label selector, Pods scheduled on all nodes
+      containers:
+      - name: fluentd
+        # we'll run fluentd-elastisearch version 1.20
+        image: gcr.io/google-containers/fluentd-elastisearch:1.20
+        # specify some memory and cpu resources
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+   
